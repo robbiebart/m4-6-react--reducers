@@ -504,15 +504,35 @@ Update these objects to use `useReducer`, with a single immutable object
 ```jsx
 // Exercise 4
 const Game = () => {
-  const [points, setPoints] = React.useState(0);
-  const [status, setStatus] = React.useState("idle");
+
+const ACTIONS = {
+  INCREMENT: 'increment',
+  DECREMENT: ' decrement'
+}
+
+const reducer = (state, action) => {
+  switch(action.type) {
+    case ACTIONS.INCREMENT:
+      return {
+        ...state,
+        points: state.points +1
+      }
+    case ACTIONS.DECREMENT:
+    return {
+        ...state,
+        points: state.points -1
+      }
+  }
+}
+const [state, dispatch] = React.useReducer(reducer,
+{points: 0, status: "idle"})
 
   return (
     <>
       Your score: {points}.
       {status === "playing" && (
         <>
-          <button onClick={() => setPoints(points + 1)}>🍓</button>
+          <button onClick={() => dispatch({type: ACTIONS.INCREMENT})setPoints(points + 1)}>🍓</button>
           <button onClick={() => setPoints(points - 1)}>💀</button>
         </>
       )}
@@ -532,26 +552,55 @@ import sendDataToServer from "./some-madeup-place";
 import FormField from "./some-other-madeup-place";
 
 const SignUpForm = () => {
-  const [firstName, setFirstName] = React.useState("");
-  const [lastName, setLastName] = React.useState("");
-  const [email, setEmail] = React.useState("");
+
+const ACTIONS = {
+  SETFIRSTNAME: 'SET-FIRST-NAME',
+  SETLASTNAME: 'SET-LAST-NAME'
+  SETEMAIL: 'SET-EMAIL'
+}
+
+const reducer = (state, action) => {
+  switch(action.type) {
+    case ACTIONS.SETFIRSTNAME:
+      return {
+        ...state,
+        firstName: action.value;
+      }
+      case ACTIONS.SETLASTNAME:
+      return {
+        ...state,
+        lastName: action.value;
+      }
+      case ACTIONS.SETEMAIL:
+      return {
+        ...state,
+        email: action.value;
+      }
+    default:
+    return state
+  }
+}
+
+  const [state, dispatch] = React.useReducer(reducer,
+  {firstName: "First Name", lastname: "LastName", email: "email"})
+
 
   return (
     <form onSubmit={sendDataToServer}>
       <FormField
         label="First Name"
         value={firstName}
-        onChange={(ev) => setFirstName(ev.target.value)}
+        onChange={(ev) => dispatch({type: ACTIONS.SETFIRSTNAME, value: ev.target.value})}
       />
       <FormField
         label="Last Name"
         value={lastName}
-        onChange={(ev) => setLastName(ev.target.value)}
+        onChange={(ev) => dispatch({type: "SEt-First-name", value: ev.target.value})}
       />
       <FormField
         label="Email"
         value={email}
-        onChange={(ev) => setEmail(ev.target.value)}
+        onChange={(ev) => dispatch({type: "SET-EMAIL", value: ev.target.value})}
       />
 
       <button>Submit</button>
