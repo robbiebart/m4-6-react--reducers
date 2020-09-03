@@ -1,15 +1,15 @@
-import React from 'react';
-import styled from 'styled-components';
-import Tippy from '@tippy.js/react';
-import VisuallyHidden from '@reach/visually-hidden';
-import { Icon } from 'react-icons-kit';
-import { checkCircle } from 'react-icons-kit/feather/checkCircle';
+import React from "react";
+import styled from "styled-components";
+import Tippy from "@tippy.js/react";
+import VisuallyHidden from "@reach/visually-hidden";
+import { Icon } from "react-icons-kit";
+import { checkCircle } from "react-icons-kit/feather/checkCircle";
 
-import seatImageSrc from '../assets/seat-available.svg';
-import { getRowName, getSeatNum, encodeSeatId } from '../helpers';
+import seatImageSrc from "../assets/seat-available.svg";
+import { getRowName, getSeatNum, encodeSeatId } from "../helpers";
 
-import UnstyledButton from './UnstyledButton';
-import { BookingContext } from './BookingContext';
+import UnstyledButton from "./UnstyledButton";
+import { BookingContext } from "./BookingContext";
 
 const Seat = ({ rowIndex, seatIndex, width, height, price, status }) => {
   const {
@@ -24,7 +24,7 @@ const Seat = ({ rowIndex, seatIndex, width, height, price, status }) => {
   return (
     <Tippy content={`Row ${rowName}, Seat ${seatNum} – $${price}`}>
       <Wrapper
-        disabled={status === 'unavailable'}
+        disabled={status === "unavailable"}
         onClick={() => {
           beginBookingProcess({ seatId, price });
         }}
