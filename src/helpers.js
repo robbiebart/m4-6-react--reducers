@@ -9,12 +9,12 @@ export const getRowIndex = (rowName) => {
 export const getSeatNum = (seatIndex) => seatIndex + 1;
 export const getSeatIndex = (seatNum) => seatNum - 1;
 
-// export const encodeSeatId = (rowIndex, seatIndex) => {
-//   const rowName = getRowName(rowIndex);
-//   const seatNum = getSeatNum(seatIndex);
+export const encodeSeatId = (rowIndex, seatIndex) => {
+  const rowName = getRowName(rowIndex);
+  const seatNum = getSeatNum(seatIndex);
 
-//   return `${rowName}-${seatNum}`;
-// };
+  return `${rowName}-${seatNum}`;
+};
 
 // export const decodeSeatId = seatId => {
 //   if (!seatId) {

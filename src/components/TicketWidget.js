@@ -6,16 +6,22 @@ import { getRowName, getSeatNum } from "../helpers";
 import { range } from "../utils";
 import { SeatContext } from "./SeatContext";
 import { ReactComponent as SeatAvailable } from "../assets/seat-available.svg";
+import Seat from "./Seat";
 
 const TicketWidget = () => {
-  const {
-    state: { seats, numOfRows, seatsPerRow, bookedSeats, hasLoaded },
-  } = useContext(SeatContext);
+  // const {
+  //   state: { seats, numOfRows, seatsPerRow, bookedSeats, hasLoaded },
+  // } = useContext(SeatContext);
   // console.log("numOfRows", numOfRows);
   // console.log("seatsPerRow", seatsPerRow);
 
   // TODO: implement the loading spinner <CircularProgress />
   // with the hasLoaded flag
+  const { state } = useContext(SeatContext);
+  const numOfRows = state.numOfRows;
+  const seatsPerRow = state.seatsPerRow;
+  const hasLoaded = state.hasLoaded;
+
   if (!hasLoaded) {
     return <CircularProgress />;
   }
@@ -35,11 +41,21 @@ const TicketWidget = () => {
                 const seatId = `${rowName}-${getSeatNum(seatIndex)}`;
                 return (
                   <SeatWrapper key={seatId}>
-                    {bookedSeats[seatId] ? (
+                    <Seat
+                      state={state}
+                      seatId={seatId}
+                      rowIndex={rowIndex}
+                      seatIndex={seatIndex}
+                      width={36}
+                      height={36}
+                      price={state.seats.price}
+                      status={state.seats.isBooked ? true : false}
+                    />
+                    {/* {bookedSeats[seatId] ? (
                       <StyledSeatUnavailable />
                     ) : (
-                      <SeatAvailable />
-                    )}
+                      <SeatAvailable /> */}
+                    )
                   </SeatWrapper>
                 );
               })}
@@ -107,8 +123,8 @@ const SeatWrapper = styled.div`
   padding: 5px;
 `;
 
-const StyledSeatUnavailable = styled(SeatAvailable)`
-  filter: grayscale(0.9);
-`;
+// const StyledSeatUnavailable = styled(SeatAvailable)`
+//   filter: grayscale(0.9);
+// `;
 
 export default TicketWidget;

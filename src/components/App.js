@@ -15,7 +15,7 @@ function App() {
     fetch("/api/seat-availability")
       .then((res) => res.json())
       .then((data) => receiveSeatInfoFromServer(data));
-  }, []);
+  }, [receiveSeatInfoFromServer]);
   console.log("state", state);
   return (
     <Wrapper>

@@ -1,9 +1,9 @@
-import React from 'react';
+import React from "react";
 
 export const BookingContext = React.createContext();
 
 const initialState = {
-  status: 'idle',
+  status: "idle",
   error: null,
   selectedSeatId: null,
   price: null,
@@ -11,54 +11,54 @@ const initialState = {
 
 function reducer(state, action) {
   switch (action.type) {
-    case 'begin-booking-process': {
+    case "begin-booking-process": {
       return {
         ...state,
-        status: 'seat-selected',
+        status: "seat-selected",
         selectedSeatId: action.seatId,
         price: action.price,
       };
     }
 
-    case 'cancel-booking-process': {
+    case "cancel-booking-process": {
       return {
         ...state,
-        status: 'idle',
+        status: "idle",
         selectedSeatId: null,
         price: null,
       };
     }
 
-    case 'purchase-ticket-request': {
+    case "purchase-ticket-request": {
       return {
         ...state,
         error: null,
-        status: 'awaiting-response',
+        status: "awaiting-response",
       };
     }
 
-    case 'purchase-ticket-failure': {
+    case "purchase-ticket-failure": {
       return {
         ...state,
-        status: 'error',
+        status: "error",
         error: action.message,
       };
     }
 
-    case 'purchase-ticket-success': {
+    case "purchase-ticket-success": {
       return {
         ...state,
-        status: 'purchased',
+        status: "purchased",
         selectedSeatId: null,
         price: null,
         error: null,
       };
     }
 
-    case 'clear-snackbar': {
+    case "clear-snackbar": {
       return {
         ...state,
-        status: 'idle',
+        status: "idle",
       };
     }
 
@@ -72,29 +72,29 @@ export const BookingProvider = ({ children }) => {
 
   const beginBookingProcess = React.useCallback(
     ({ seatId, price }) =>
-      dispatch({ type: 'begin-booking-process', seatId, price }),
+      dispatch({ type: "begin-booking-process", seatId, price }),
     [dispatch]
   );
 
   const cancelBookingProcess = React.useCallback(
-    () => dispatch({ type: 'cancel-booking-process' }),
+    () => dispatch({ type: "cancel-booking-process" }),
     [dispatch]
   );
 
   const purchaseTicketRequest = React.useCallback(
-    () => dispatch({ type: 'purchase-ticket-request' }),
+    () => dispatch({ type: "purchase-ticket-request" }),
     [dispatch]
   );
   const purchaseTicketSuccess = React.useCallback(
-    () => dispatch({ type: 'purchase-ticket-success' }),
+    () => dispatch({ type: "purchase-ticket-success" }),
     [dispatch]
   );
   const purchaseTicketFailure = React.useCallback(
-    message => dispatch({ type: 'purchase-ticket-failure', message }),
+    (message) => dispatch({ type: "purchase-ticket-failure", message }),
     [dispatch]
   );
   const clearSnackbar = React.useCallback(
-    () => dispatch({ type: 'clear-snackbar' }),
+    () => dispatch({ type: "clear-snackbar" }),
     [dispatch]
   );
 
