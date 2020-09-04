@@ -25,6 +25,9 @@ router.get("/api/seat-availability", async (req, res) => {
       bookedSeats: randomlyBookSeats(30),
     };
   }
+  state.bookedSeats.forEach((bookedSeat) => {
+    seats[bookedSeat.seatId].isBooked = true;
+  });
   await delay(Math.random() * 3000);
   return res.json({
     seats: seats,
