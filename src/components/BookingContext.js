@@ -27,15 +27,14 @@ function reducer(state, action) {
 
 export const BookingProvider = ({ children }) => {
   const [state, dispatch] = React.useReducer(reducer, initialState);
-
-  const beginBookingProcess = React.useCallback(
-    ({ rowIndex, seatIndex, price }) =>
-      dispatch({
-        type: "begin-booking-process",
-        payload: { rowIndex, seatIndex, price },
-      }),
-    [dispatch]
-  );
+  console.log("please work", state);
+  const beginBookingProcess = (seatInformation) => {
+    console.log("seat information", seatInformation);
+    dispatch({
+      type: "begin-booking-process",
+      ...seatInformation,
+    });
+  };
 
   return (
     <BookingContext.Provider

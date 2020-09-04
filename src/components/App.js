@@ -1,4 +1,4 @@
-import React, { useEffect } from "react";
+import React, { useEffect, useState } from "react";
 import styled from "styled-components";
 import GlobalStyles from "./GlobalStyles";
 import { SeatContext } from "./SeatContext";
@@ -11,17 +11,25 @@ function App() {
     actions: { receiveSeatInfoFromServer },
   } = React.useContext(SeatContext);
 
+  const [status, setStatus] = useState("loading");
+
   useEffect(() => {
     fetch("/api/seat-availability")
       .then((res) => res.json())
-      .then((data) => receiveSeatInfoFromServer(data));
+      .then((data) => receiveSeatInfoFromServer(data))
+      .then(() => setStatus("idle"));
   }, [receiveSeatInfoFromServer]);
-  console.log("state", state);
+  // console.log("state", state);
+
   return (
     <Wrapper>
       <GlobalStyles />
-      This venue has {numOfRows} rows!
-      <TicketWidget />
+      {status === "idle" && (
+        <>
+          This venue has {numOfRows} rows!
+          <TicketWidget />
+        </>
+      )}
     </Wrapper>
   );
 }

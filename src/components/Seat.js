@@ -7,7 +7,6 @@ import Tippy from "@tippyjs/react";
 import "tippy.js/dist/tippy.css";
 
 const Seat = ({
-  state,
   seatId,
   rowIndex,
   seatIndex,
@@ -20,14 +19,70 @@ const Seat = ({
     actions: { beginBookingProcess },
   } = useContext(BookingContext);
 
-  if (state.seats.isBooked === true) {
+  const { state } = React.useContext(SeatContext);
+  // console.log(state);
+  if (state.seats[seatId].isBooked === true) {
+    return (
+      <StyledTippy
+        key={`tippy-${seatId}`}
+        content={`Row ${rowIndex + 1}, Seat ${seatIndex + 1} -$
+            ${state.seats[seatId].price}`}
+      >
+        <Button disabled={state.seats[seatId].isBooked}>
+          <img
+            alt="unavailable seat"
+            src={seat}
+            style={{ filter: "grayscale(100%)" }}
+          />
+        </Button>
+      </StyledTippy>
+    );
+  } else {
+    return (
+      <StyledTippy
+        key={`tippy-${seatId}`}
+        content={
+          <span>
+            Row {rowIndex + 1}, Seat {seatIndex + 1} -$
+            {state.seats[seatId].price}
+          </span>
+        }
+      >
+        <Button
+          onClick={() => {
+            beginBookingProcess({
+              seatId,
+              price: state.seats[seatId].price,
+            });
+          }}
+          disabled={false}
+        >
+          <img alt="available seat" src={seat} />
+        </Button>
+      </StyledTippy>
+    );
+  }
+};
+
+const StyledTippy = styled(Tippy)`
+  background: #222;
+`;
+
+const Button = styled.button`
+  position: relative;
+  cursor: pointer;
+`;
+
+/*
+
+if (state.seats.isBooked === true) {
     return (
       <StyledTippy
         key={`tippy-${seatId}`}
         content={`Row ${rowIndex}, Seat ${seatIndex} -$
             ${price}`}
       >
-        <Button disabled={status}>
+        <Button disabled={false}>
           <img
             alt="unavailable seat"
             src={seat}
@@ -49,7 +104,7 @@ const Seat = ({
       >
         <Button
           onClick={() => {
-            beginBookingProcess(rowIndex, seatIndex, price);
+            beginBookingProcess({ seatId });
           }}
           disabled={status}
         >
@@ -58,18 +113,7 @@ const Seat = ({
       </StyledTippy>
     );
   }
-};
 
-const StyledTippy = styled(Tippy)`
-  background: #222;
-`;
-
-const Button = styled.button`
-  position: relative;
-
-  &:disabled img {
-    filter: grayscale(100%);
-  }
-`;
+*/
 
 export default Seat;
